@@ -50,39 +50,52 @@ def padding(image, padding):
     image_output[padding: padding + high, padding:padding + witdh, :] = image
     return image_output
 
+#Devuelve los bordes validos de la imagen
+
+def depurer(image):
+    height, width, channels = image.shape
+    output_image = image.copy()
+    height, width, channels = output_image.shape
+    #Verde y azul deben ser a lo mucho 160 en RGB
+    for row in range(height):
+        for col in range(width):
+            r, g, b = output_image[row][col]
+            if(g>50 and b>50):
+                output_image[row][col] = 0, 0, 0
+
+    #avg = red_sum/cant_pix    
+    return output_image
+
+kernel_sobel_x = np.array([
+    [-1, 0, 1],
+    [-2, 0, 2],
+    [-1, 0, 1]
+
+])
+
+kernel_sobel_y = np.array([
+    [-1, -2, -1],
+    [0, 0, 0],
+    [-1, 0, 1]
+])
+
 kernelBorders = np.array([
      [1, 1, 1],
      [-1, -4, -1],
      [1, 1, 1]
 ])
 
-kernelSat = np.array([
-    [0, .25, 0],
-    [.25, 0, .25],
-    [0, .25, 0]
+ruta = r"C:\Users\luisp\OneDrive\Documentos\Carrera\Semestre 4\SemanaTec\Hemomeasure\gaza_ejemplo.jpg"
+imagen_gaza = cv2.imread(ruta, cv2.IMREAD_COLOR_RGB)
+#imagen_gaza = alt_colors_spectrum(imagen_gaza, 1, 0, 0)
+#borders = convulution_color(imagen_gaza, kernel_sobel_x)
+#borders = convulution_color(borders, kernel_sobel_y)
 
-])
+borders2 = convulution_color(imagen_gaza, kernelBorders)
 
-kernelDef = np.array([
-    [0, -1, 0],
-    [-1, 5, -1],
-    [0, -1, 0]
-])
-
-
-
-ruta = r"C:\Users\luisp\OneDrive\Documentos\Carrera\Semestre 4\SemanaTec\ProyectoVisionComputacional\semena-tec-tools-vision\Images\tata.jpg"
-rubenColor = cv2.imread(ruta, cv2.IMREAD_COLOR_RGB)
-rubenColor = alt_colors_spectrum(rubenColor, 0, .5, 1)
-#rubenColor = convulution_color(rubenColor, kernelBorders)
-rubenColor = convulution_color(rubenColor, kernelDef)
-alto, ancho, canales = rubenColor.shape
-print(alto)
-print(ancho)
-rubenColor = padding(rubenColor, 2)
-alto2, ancho2, canales2 = rubenColor.shape
-print(alto2)
-print(ancho2)
-plt.imshow(rubenColor)
-plt.axis('off')
-plt.show()
+depured = depurer(borders2)
+#imagen_gaza = convulution_color(imagen_gaza, kernelDef)
+cv2.namedWindow("Ejemplo", cv2.WINDOW_NORMAL)
+cv2.setWindowProperty("Ejemplo", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+cv2.imshow("Ejemplo",depured)
+cv2.waitKey(0)

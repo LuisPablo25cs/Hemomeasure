@@ -56,19 +56,27 @@ def painter(image):
     height, width, channels = image.shape
     output_image = image.copy()
     height, width, channels = output_image.shape
+    gaze_px = 0
+    px = 0
     #Verde y azul deben ser a lo mucho 160 en RGB
     for row in range(height):
         for col in range(width):
             r, g, b = output_image[row][col]
             if(g>9 and b>9 and r>240):
                 output_image[row][col] = 0, 0, 0
+                px += 1
             else: 
+                gaze_px += 1
+    
+    print("pixeles de la gaza")
+    print(gaze_px)
+    print(px)
+    print(height, width)
+    return output_image, gaze_px
 
 
-    #avg = red_sum/cant_pix    
-    return output_image
-
-def depurer(image):
+def depurer(image, gaze_px):
+    blood_px = 0
     height, width, channels = image.shape
     output_image = image.copy()
     height, width, channels = output_image.shape
@@ -78,11 +86,14 @@ def depurer(image):
             r, g, b = output_image[row][col]
             if(r>170 and g>170 and b>170):
                 output_image[row][col] = 0, 0, 0
-
-    #avg = red_sum/cant_pix    
+            else: 
+                blood_px += 1
+    perc = blood_px/gaze_px   
+    print(perc)
+    print(blood_px)
     return output_image
 
-
+#Función que falta depurar
 def findredp(image):
     red_channel = image[:, :, 2]
     green_channel = image[:, :, 1]
@@ -129,10 +140,10 @@ imagen_gaza = cv2.imread(ruta, cv2.IMREAD_COLOR_RGB)
 #borders = convulution_color(borders, kernel_sobel_y)
 
 borders2 = convulution_color(imagen_gaza, kernelBorders)
-depured = painter(imagen_gaza)
-#depured = depurer(depured)
+depured, gaze_px = painter(imagen_gaza)
+#depured = depurer(depured, gaze_px)
 #imagen_gaza = convulution_color(imagen_gaza, kernelDef)
-cv2.namedWindow("Ejemplo", cv2.WINDOW_NORMAL)
-cv2.setWindowProperty("Ejemplo", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-cv2.imshow("Ejemplo",depured)
+cv2.namedWindow("Ejemplo2", cv2.WINDOW_NORMAL)
+cv2.setWindowProperty("Ejemplo2", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+cv2.imshow("Ejemplo2",depured)
 cv2.waitKey(0)

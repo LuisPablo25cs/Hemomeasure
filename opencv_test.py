@@ -52,7 +52,7 @@ def padding(image, padding):
 
 #Devuelve los bordes validos de la imagen
 
-def depurer(image):
+def painter(image):
     height, width, channels = image.shape
     output_image = image.copy()
     height, width, channels = output_image.shape
@@ -66,6 +66,19 @@ def depurer(image):
     #avg = red_sum/cant_pix    
     return output_image
 
+def depurer(image):
+    height, width, channels = image.shape
+    output_image = image.copy()
+    height, width, channels = output_image.shape
+    #Verde y azul deben ser a lo mucho 160 en RGB
+    for row in range(height):
+        for col in range(width):
+            r, g, b = output_image[row][col]
+            if(r>170 and g>170 and b>170):
+                output_image[row][col] = 0, 0, 0
+
+    #avg = red_sum/cant_pix    
+    return output_image
 kernel_sobel_x = np.array([
     [-1, 0, 1],
     [-2, 0, 2],
@@ -92,7 +105,8 @@ imagen_gaza = cv2.imread(ruta, cv2.IMREAD_COLOR_RGB)
 #borders = convulution_color(borders, kernel_sobel_y)
 
 borders2 = convulution_color(imagen_gaza, kernelBorders)
-depured = depurer(imagen_gaza)
+depured = painter(imagen_gaza)
+depured = depurer(depured)
 #imagen_gaza = convulution_color(imagen_gaza, kernelDef)
 cv2.namedWindow("Ejemplo", cv2.WINDOW_NORMAL)
 cv2.setWindowProperty("Ejemplo", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)

@@ -4,9 +4,24 @@ import numpy as np
 import cv2
 import matplotlib.pyplot as plt
 
+
+
+"""print("¡Bienvenid@ a Hemomeasure!")
+print("¿Deseas medir el procentaje de sangre?")
+x = int(input())
+if x==1:
+    print("nice")
+elif x==2:
+    print(":(")
+else:
+    print("ouch")"""
+
+    
+
 # Select image using file dialog
 tk.Tk().withdraw()
-fn = askopenfilename()
+ruta = r"C:\Users\arace\Desktop\Araceli Escuela\TEC\SEMESTRE 4\SemanaTEC\Laboratorio\semena-tec-tools-vision\Images"
+fn = askopenfilename(initialdir=ruta,filetypes =[("Archivo tipo Imagen", "*.png;*.jpg")])
 
 if not fn:
     print("No file selected. Exiting.")
@@ -69,12 +84,3 @@ k = np.array([[-1, -1, -1],
               [-1, -1, -1]])
 
 output_image = convolution(image, k, verbose=True)
-
-# Optional Gaussian blur example
-"""
-k_blur = np.array([[1, 2, 1],
-                   [2, 4, 2],
-                   [1, 2, 1]]) / 16
-
-output_image_blur = convolution(image, k_blur, average=True, verbose=True)
-"""

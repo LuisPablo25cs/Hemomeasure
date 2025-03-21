@@ -60,7 +60,7 @@ def depurer(image):
     for row in range(height):
         for col in range(width):
             r, g, b = output_image[row][col]
-            if(g>50 and b>50):
+            if(g>9 and b>9 and r>240):
                 output_image[row][col] = 0, 0, 0
 
     #avg = red_sum/cant_pix    
@@ -92,8 +92,7 @@ imagen_gaza = cv2.imread(ruta, cv2.IMREAD_COLOR_RGB)
 #borders = convulution_color(borders, kernel_sobel_y)
 
 borders2 = convulution_color(imagen_gaza, kernelBorders)
-
-depured = depurer(borders2)
+depured = depurer(imagen_gaza)
 #imagen_gaza = convulution_color(imagen_gaza, kernelDef)
 cv2.namedWindow("Ejemplo", cv2.WINDOW_NORMAL)
 cv2.setWindowProperty("Ejemplo", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)

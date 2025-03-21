@@ -62,7 +62,7 @@ def painter(image):
     for row in range(height):
         for col in range(width):
             r, g, b = output_image[row][col]
-            if(g>9 and b>9 and r>230):
+            if(g>9 and b>9 and r>240):
                 output_image[row][col] = 0, 0, 0
                 px += 1
             else: 
@@ -82,15 +82,33 @@ def depurer(image, gaze_px):
     for row in range(height):
         for col in range(width):
             r, g, b = output_image[row][col]
-            if(r>170 and g>170 and b>170):
+            if(r>200 and g>170 and b>170):
                 output_image[row][col] = 0, 0, 0
             elif(r == 0 and g == 0 and b == 0):
                 continue
             else: 
                 blood_px += 1
     print("El porcentaje de sangre en la gaza es: ", blood_px/gaze_px)
+    print("La gaza tiene: ", (blood_px/gaze_px)*30, "ml")
     return output_image
 
+def reader(ruta):
+    #Se lee la imagen
+    imagen_gaza = cv2.imread(ruta, cv2.IMREAD_COLOR_RGB)
+    #Se pinta lo que no es la gaza de negro
+    depured, gaze_px = painter(imagen_gaza)
+
+    #Se pinta lo que no es la sangre para establecer una relación
+    depured = depurer(depured, gaze_px)
+    #Se muestra la sangre detectada en la imagen como una ventana
+    cv2.namedWindow("Ejemplo2", cv2.WINDOW_NORMAL)
+    cv2.setWindowProperty("Ejemplo2", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+    cv2.imshow("Ejemplo2",depured)
+    cv2.waitKey(0)
+    return 0
+
+
+#In a 10x10 cm gaze, the maximum amount of blood acumulated is 30ml. 
 kernelBorders = np.array([
      [1, 1, 1],
      [-1, -4, -1],
@@ -98,21 +116,11 @@ kernelBorders = np.array([
 ])
 
 
-ruta = r"C:\Users\luisp\OneDrive\Documentos\Carrera\Semestre 4\SemanaTec\Hemomeasure\gaza_ejemplo.jpg"
-imagen_gaza = cv2.imread(ruta, cv2.IMREAD_COLOR_RGB)
-imagen_gaza_grises = cv2.imread(ruta, cv2.IMREAD_REDUCED_GRAYSCALE_2)
-#imagen_gaza = alt_colors_spectrum(imagen_gaza, 1, 0, 0)
-#borders = convulution_color(imagen_gaza, kernel_sobel_x)
-#borders = convulution_color(borders, kernel_sobel_y)
+ruta1 = r"C:\Users\luisp\OneDrive\Documentos\Carrera\Semestre 4\SemanaTec\Hemomeasure\5ml10x10.jpg"
+ruta2 = r"C:\Users\luisp\OneDrive\Documentos\Carrera\Semestre 4\SemanaTec\Hemomeasure\10ml10x10.jpg"
+ruta3 = r"C:\Users\luisp\OneDrive\Documentos\Carrera\Semestre 4\SemanaTec\Hemomeasure\20ml10x10.jpg"
+ruta4 = r"C:\Users\luisp\OneDrive\Documentos\Carrera\Semestre 4\SemanaTec\Hemomeasure\30ml10x10.jpg"
 
-borders2 = convulution_color(imagen_gaza, kernelBorders)
-depured, gaze_px = painter(imagen_gaza)
-depured = depurer(depured, gaze_px)
-#imagen_gaza = convulution_color(imagen_gaza, kernelDef)
 
-cv2.namedWindow("Ejemplo2", cv2.WINDOW_NORMAL)
-cv2.setWindowProperty("Ejemplo2", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-cv2.imshow("Ejemplo2",depured)
-cv2.waitKey(0)
-cv2.imshow("Ejemplo2", borders2)
-cv2.waitKey(0)
+reader(ruta1)
+reader(ruta2)

@@ -82,7 +82,7 @@ def depurer(image, gaze_px):
     for row in range(height):
         for col in range(width):
             r, g, b = output_image[row][col]
-            if(r>200 and g>170 and b>170):
+            if(r>150 and g>170 and b>170):
                 output_image[row][col] = 0, 0, 0
             elif(r == 0 and g == 0 and b == 0):
                 continue
@@ -107,6 +107,10 @@ def reader(ruta):
     cv2.waitKey(0)
     return 0
 
+def map_red_value(px):
+    v_min = 100
+    v_max = 170
+    return 100-px / 170-px
 
 #In a 10x10 cm gaze, the maximum amount of blood acumulated is 30ml. 
 kernelBorders = np.array([
@@ -124,3 +128,11 @@ ruta4 = r"C:\Users\luisp\OneDrive\Documentos\Carrera\Semestre 4\SemanaTec\Hemome
 
 reader(ruta1)
 reader(ruta2)
+reader(ruta3)
+reader(ruta4)
+
+"""
+Comentario para la mañana, debes generar una matriz que evalue proporcionalmente el nivel de sangr en base a la 
+ausencia de rojo en lo que se detecte como sangre, necesitas que el depurer sea muy sensible, y reajustar la forma de calcular. 
+Ya casi queda ustedes pueden!
+"""

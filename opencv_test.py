@@ -97,8 +97,10 @@ kernelBorders = np.array([
      [1, 1, 1]
 ])
 
+
 ruta = r"C:\Users\luisp\OneDrive\Documentos\Carrera\Semestre 4\SemanaTec\Hemomeasure\gaza_ejemplo.jpg"
 imagen_gaza = cv2.imread(ruta, cv2.IMREAD_COLOR_RGB)
+imagen_gaza_grises = cv2.imread(ruta, cv2.IMREAD_REDUCED_GRAYSCALE_2)
 #imagen_gaza = alt_colors_spectrum(imagen_gaza, 1, 0, 0)
 #borders = convulution_color(imagen_gaza, kernel_sobel_x)
 #borders = convulution_color(borders, kernel_sobel_y)
@@ -107,7 +109,10 @@ borders2 = convulution_color(imagen_gaza, kernelBorders)
 depured, gaze_px = painter(imagen_gaza)
 depured = depurer(depured, gaze_px)
 #imagen_gaza = convulution_color(imagen_gaza, kernelDef)
+
 cv2.namedWindow("Ejemplo2", cv2.WINDOW_NORMAL)
 cv2.setWindowProperty("Ejemplo2", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 cv2.imshow("Ejemplo2",depured)
+cv2.waitKey(0)
+cv2.imshow("Ejemplo2", borders2)
 cv2.waitKey(0)

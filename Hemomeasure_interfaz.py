@@ -5,34 +5,6 @@ import cv2
 import matplotlib.pyplot as plt
 
 
-
-"""print("¡Bienvenid@ a Hemomeasure!")
-print("¿Deseas medir el procentaje de sangre?")
-x = int(input())
-if x==1:
-    print("nice")
-elif x==2:
-    print(":(")
-else:
-    print("ouch")"""
-
-    
-
-# Select image using file dialog
-tk.Tk().withdraw()
-ruta = r"C:\Users\arace\Desktop\Araceli Escuela\TEC\SEMESTRE 4\SemanaTEC\Laboratorio\semena-tec-tools-vision\Images"
-fn = askopenfilename(initialdir=ruta,filetypes =[("Archivo tipo Imagen", "*.png;*.jpg")])
-
-if not fn:
-    print("No file selected. Exiting.")
-    exit()
-
-# Read image using OpenCV
-image = cv2.imread(fn)
-if image is None:
-    print("Failed to load image. Please check the file path.")
-    exit()
-
 def convolution(image, kernel, average=False, verbose=False):
     if len(image.shape) == 3:
         print("Found 3 Channels : {}".format(image.shape))
@@ -78,9 +50,42 @@ def convolution(image, kernel, average=False, verbose=False):
 
     return output
 
-# Edge detection kernel
-k = np.array([[-1, -1, -1],
+
+
+
+def llamarConv():
+    # Ruta inicial del directorio, misma donde se encuentra el .py
+    ruta = r"C:\Users\arace\Desktop\Araceli Escuela\TEC\SEMESTRE 4\SemanaTEC\Laboratorio\semena-tec-tools-vision\Images"
+    # Permite abrir archuvis .png o .jpg
+    fn = askopenfilename(initialdir=ruta,filetypes =[("Archivo tipo Imagen", "*.png;*.jpg")])
+    
+    # En caso de no ingresar una imagen
+    if not fn:
+        print("No se ha seleccionado una imagen.")
+        return
+
+    # OpenCV "lee" la imagen en la ruta fn
+    image = cv2.imread(fn)
+    
+    #Kernel de ejemplo
+    k = np.array([[-1, -1, -1],
               [-1, 8, -1],
               [-1, -1, -1]])
+    #LLama a la funcion con la imagen y el kernel
+    output_image = convolution(image, k, verbose=True)
 
-output_image = convolution(image, k, verbose=True)
+    
+print("¡Bienvenid@ a Hemomeasure!")
+print("¿Deseas medir el procentaje de sangre?")
+try:
+    x = int(input("""Teclea el número de la opción que eligas:
+    1.Si   2.No \n"""))
+
+    if x==1:
+        llamarConv()
+    elif x==2:
+        print("Nos vemos luego")
+    else:
+        print("Por favor seleccione 1 o 2.")
+except ValueError:
+    print("Por favor ingrese un número")

@@ -62,7 +62,7 @@ def painter(image):
     for row in range(height):
         for col in range(width):
             r, g, b = output_image[row][col]
-            if(g>9 and b>9 and r>240):
+            if(g>9 and b>9 and r>230):
                 output_image[row][col] = 0, 0, 0
                 px += 1
             else: 
@@ -70,62 +70,26 @@ def painter(image):
     
     print("pixeles de la gaza")
     print(gaze_px)
-    print(px)
-    print(height, width)
     return output_image, gaze_px
 
 
 def depurer(image, gaze_px):
-    blood_px = 0
     height, width, channels = image.shape
     output_image = image.copy()
     height, width, channels = output_image.shape
+    blood_px = 0
     #Verde y azul deben ser a lo mucho 160 en RGB
     for row in range(height):
         for col in range(width):
             r, g, b = output_image[row][col]
             if(r>170 and g>170 and b>170):
                 output_image[row][col] = 0, 0, 0
+            elif(r == 0 and g == 0 and b == 0):
+                continue
             else: 
                 blood_px += 1
-    perc = blood_px/gaze_px   
-    print(perc)
-    print(blood_px)
+    print("El porcentaje de sangre en la gaza es: ", blood_px/gaze_px)
     return output_image
-
-#Función que falta depurar
-def findredp(image):
-    red_channel = image[:, :, 2]
-    green_channel = image[:, :, 1]
-    blue_channel = image[:, :, 0]
-
-    red_value = np.sum(red_channel)
-    green_value = np.sum(green_channel)
-    blue_value = np.sum(blue_channel)
-
-    totalrgb = red_value + green_value + blue_value
-    redpercent = red_value / totalrgb
-    print(redpercent)
-    greenpercent = green_value / totalrgb
-    print(greenpercent)
-    bluepercent = blue_value / totalrgb
-    print(bluepercent)
-
-    return redpercent
-
-
-kernel_sobel_x = np.array([
-    [-1, 0, 1],
-    [-2, 0, 2],
-    [-1, 0, 1]
-
-])
-
-kernel_sobel_y = np.array([
-    [-1, -2, -1],
-    [0, 0, 0],
-    [-1, 0, 1]
-])
 
 kernelBorders = np.array([
      [1, 1, 1],
@@ -141,7 +105,7 @@ imagen_gaza = cv2.imread(ruta, cv2.IMREAD_COLOR_RGB)
 
 borders2 = convulution_color(imagen_gaza, kernelBorders)
 depured, gaze_px = painter(imagen_gaza)
-#depured = depurer(depured, gaze_px)
+depured = depurer(depured, gaze_px)
 #imagen_gaza = convulution_color(imagen_gaza, kernelDef)
 cv2.namedWindow("Ejemplo2", cv2.WINDOW_NORMAL)
 cv2.setWindowProperty("Ejemplo2", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)

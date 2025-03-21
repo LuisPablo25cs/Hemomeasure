@@ -7,36 +7,22 @@ image2 = cv2.imread('C:\\Users\\Edgardo\\Documents\\hemomeasure\\casosdeprueba\\
 
 
 def adjust_brilliance(image, brilliance_factor=1.5):
-    """ Adjusts image brilliance by modifying the midtones. """
-    # Convert to float32 to prevent clipping during operations
     image = image.astype(np.float32)
-
-    # Compute the mean brightness of the image
     mean_brightness = np.mean(image)
-
-    # Adjust brilliance by applying a scaling factor to pixel values relative to the mean
     image = (image - mean_brightness) * brilliance_factor + mean_brightness
-
-    # Clip the values to the valid range [0, 255]
     image = np.clip(image, 0, 255)
-
-    # Convert back to uint8
     image = image.astype(np.uint8)
 
     return image
 
 def adjust_exposure(image, exposure_factor=1.5):
-    """ Adjusts image exposure by scaling brightness directly. """
-    # Convert to float32 to prevent clipping during operations
     image = image.astype(np.float32)
 
-    # Multiply the image by the exposure factor
     image = image * exposure_factor
 
-    # Clip the values to the valid range [0, 255]
+    # OVERFLOW HANDLING
     image = np.clip(image, 0, 255)
 
-    # Convert back to uint8
     image = image.astype(np.uint8)
 
     return image

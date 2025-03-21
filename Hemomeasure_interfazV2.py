@@ -1,8 +1,16 @@
+"""Propuesta por
+Luis Pablo Cárdenas (A01254955)
+Eduardo Cárdenas (A00232432)
+Sebastián Blanchet (A00227588)
+Araceli Ruiz (A01255302)"""
+
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+
+
 
 def adjust_brilliance(image, brilliance_factor=1.5):
     image = image.astype(np.float32)
@@ -20,9 +28,7 @@ def adjust_exposure(image, exposure_factor=1.5):
 
     # OVERFLOW HANDLING
     image = np.clip(image, 0, 255)
-
     image = image.astype(np.uint8)
-
     return image
 
 
@@ -71,7 +77,7 @@ def hemomeasure(image, brilliance_factor=5, exposure_factor=3, blur_ksize=(123, 
 def llamar():
     # Ruta inicial del directorio, misma donde se encuentra el .py
     ruta = r"C:\Users\arace\Desktop\Araceli Escuela\TEC\SEMESTRE 4\SemanaTEC\Laboratorio\Hemomeasure\hemomeasure"
-    # Permite abrir archuvis .png o .jpg
+    # Permite abrir archivos .png o .jpg
     fn = askopenfilename(initialdir=ruta,filetypes =[("Archivo tipo Imagen", "*.png;*.jpg")])
     fn2 = askopenfilename(initialdir=ruta,filetypes =[("Archivo tipo Imagen", "*.png;*.jpg")])
     
@@ -80,7 +86,7 @@ def llamar():
         print("No se ha seleccionado una imagen.")
         return
 
-    # OpenCV "lee" la imagen en la ruta fn
+    # OpenCV "lee" las imagenes en las rutas seleccionadas
     image = cv2.imread(fn)
     image2 = cv2.imread(fn2)
     

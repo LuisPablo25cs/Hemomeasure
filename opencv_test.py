@@ -62,6 +62,8 @@ def painter(image):
             r, g, b = output_image[row][col]
             if(g>9 and b>9 and r>240):
                 output_image[row][col] = 0, 0, 0
+            else: 
+
 
     #avg = red_sum/cant_pix    
     return output_image
@@ -79,6 +81,28 @@ def depurer(image):
 
     #avg = red_sum/cant_pix    
     return output_image
+
+
+def findredp(image):
+    red_channel = image[:, :, 2]
+    green_channel = image[:, :, 1]
+    blue_channel = image[:, :, 0]
+
+    red_value = np.sum(red_channel)
+    green_value = np.sum(green_channel)
+    blue_value = np.sum(blue_channel)
+
+    totalrgb = red_value + green_value + blue_value
+    redpercent = red_value / totalrgb
+    print(redpercent)
+    greenpercent = green_value / totalrgb
+    print(greenpercent)
+    bluepercent = blue_value / totalrgb
+    print(bluepercent)
+
+    return redpercent
+
+
 kernel_sobel_x = np.array([
     [-1, 0, 1],
     [-2, 0, 2],
@@ -106,7 +130,7 @@ imagen_gaza = cv2.imread(ruta, cv2.IMREAD_COLOR_RGB)
 
 borders2 = convulution_color(imagen_gaza, kernelBorders)
 depured = painter(imagen_gaza)
-depured = depurer(depured)
+#depured = depurer(depured)
 #imagen_gaza = convulution_color(imagen_gaza, kernelDef)
 cv2.namedWindow("Ejemplo", cv2.WINDOW_NORMAL)
 cv2.setWindowProperty("Ejemplo", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)

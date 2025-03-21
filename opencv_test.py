@@ -95,6 +95,9 @@ def depurer(image, gaze_px):
 def reader(ruta):
     #Se lee la imagen
     imagen_gaza = cv2.imread(ruta, cv2.IMREAD_COLOR_RGB)
+    #Le da color rojo a la sangre
+    imagen_gaza = cv2.cvtColor(imagen_gaza, cv2.COLOR_BGR2RGB)
+
     #Se pinta lo que no es la gaza de negro
     depured, gaze_px = painter(imagen_gaza)
 

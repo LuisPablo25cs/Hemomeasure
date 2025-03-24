@@ -87,7 +87,7 @@ def depurer(image, gaze_px):
             elif(r == 0 and g == 0 and b == 0):
                 continue
             else: 
-                blood_px += 1
+                blood_px += 1 
     print("El porcentaje de sangre en la gaza es: ", blood_px/gaze_px)
     print("La gaza tiene: ", (blood_px/gaze_px)*30, "ml")
     return output_image
@@ -123,6 +123,7 @@ kernelBorders = np.array([
 ])
 
 
+
 ruta1 = r"C:\Users\luisp\OneDrive\Documentos\Carrera\Semestre 4\SemanaTec\Hemomeasure\5ml10x10.jpg"
 ruta2 = r"C:\Users\luisp\OneDrive\Documentos\Carrera\Semestre 4\SemanaTec\Hemomeasure\10ml10x10.jpg"
 ruta3 = r"C:\Users\luisp\OneDrive\Documentos\Carrera\Semestre 4\SemanaTec\Hemomeasure\20ml10x10.jpg"
@@ -133,6 +134,8 @@ reader(ruta1)
 reader(ruta2)
 reader(ruta3)
 reader(ruta4)
+
+
 
 """
 Comentario para la mañana, debes generar una matriz que evalue proporcionalmente el nivel de sangr en base a la 
